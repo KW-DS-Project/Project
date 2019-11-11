@@ -1,3 +1,5 @@
+// g++ 환경에서 컴파일하기 바랍니다.
+
 #include <iostream>
 #include <stdlib.h>
 
