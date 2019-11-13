@@ -1,5 +1,5 @@
 #include "MsgQue.hpp"
-#include "input.h"
+#include "input.hpp"
 #include <iostream>
 #include <signal.h>
 #include <string.h>

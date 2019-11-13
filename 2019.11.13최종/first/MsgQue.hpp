@@ -1,7 +1,7 @@
 #ifndef __MSGQUE_H__
 #define __MSGQUE_H__
 
-#include "input.h"
+#include "input.hpp"
 
 #define MENU_TYPE 1 // 숫자
 
