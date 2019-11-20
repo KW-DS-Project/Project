@@ -1,5 +1,5 @@
 #include "MsgQue.hpp"
-#include "input.h"
+#include "input.hpp"
 #include "table.h"
 #include <cstdlib>
 #include <cstring>
