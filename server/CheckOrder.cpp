@@ -7,21 +7,19 @@
 #include <sys/msg.h>
 #include <sys/types.h>
 
-
 using namespace std;
 
 void signalHandler(int signum);
 void complete_order();
-void sendMsg(int qid, long type, int data);
-void getMsg(int qid, int type);
 
-MsgRslt msgRslt;
+MsgRslt sndIdx;
 key_t mykey2;
 int msqid2;
-int pidOfServer;
 
 int main(int argc, char const *argv[]) {
     printf("\033[2J\033[1;1H");
+
+    MsgRslt rcvIdx;
 
     mykey2 = ftok("mykey2", 2);
     msqid2 = msgget(mykey2, IPC_CREAT);
@@ -30,15 +28,20 @@ int main(int argc, char const *argv[]) {
     list<int>::iterator iter;
     signal(SIGINT, signalHandler);
 
-    getMsg(msqid2, IDX_STORE_RCV);
-    pidOfServer = msgRslt.rslt;
+    // while (1) {
+    //     cout << "숫자 입력: ";
+    //     int ind;
+    //     cin >> ind;
+    //     cout << ind * 100 << endl;
+    //     cin.clear();
+    // }
+
     // 주문 번호 받는 상태
     puts("wait...주문번호!");
     while (1) {
-        cout << "Server's pid: " << pidOfServer << endl;
-        memset(&msgRslt, 0x00, sizeof(MsgRslt));
-        getMsg(msqid2, IDX_STORE_RCV);
-        orders.push_back(msgRslt.rslt);
+        memset(&rcvIdx, 0x00, sizeof(MsgRslt));
+        msgrcv(msqid2, &rcvIdx, MSG_SIZE_RSLT, IDX_STORE_RCV, 0);
+        orders.push_back(rcvIdx.rslt);
         // cout << "\033[2J\033[1;1H";
         cout << "주문 번호: ";
         for (iter = orders.begin(); iter != orders.end(); ++iter) {
@@ -53,7 +56,6 @@ int main(int argc, char const *argv[]) {
 void signalHandler(int signum) {
     if (signum == SIGINT) {
         cout << "\033[2J\033[1;1H";
-        kill(pidOfServer, SIGUSR1);
         complete_order();
         // cin.clear();
     }
@@ -67,18 +69,11 @@ void complete_order() {
     if (index == 0)
         exit(0);
     cout << index << " 이것이 인덱스! 엔터를 누르세요." << endl;
-    //cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[1;1H";
     // cout << "숫자 34343434입력: ";
 
-    sendMsg(msqid2, IDX_REMOVE_SND, index);
-    kill(pidOfServer, SIGUSR2);
-    cout << "signal";
-}
-void getMsg(int qid, int type) { msgrcv(qid, &msgRslt, MSG_SIZE_RSLT, type, 0); }
-
-void sendMsg(int qid, long type, int data) {
-    memset(&msgRslt, 0x00, sizeof(MsgRslt));
-    msgRslt.mtype = type;
-    msgRslt.rslt = data;
-    msgsnd(qid, &msgRslt, MSG_SIZE_RSLT, 0);
+    memset(&sndIdx, 0x00, sizeof(MsgRslt));
+    sndIdx.mtype = IDX_REMOVE_SND;
+    sndIdx.rslt = index;
+    msgsnd(msqid2, &sndIdx, MSG_SIZE_RSLT, 0);
 }
