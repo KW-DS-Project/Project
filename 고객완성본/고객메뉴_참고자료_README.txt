@@ -19,3 +19,13 @@ MsgCus는 주문 번호 (num ) , MsgList구조체의 배열, MsgList구조체의
 
 menuTotal 까지 for문을 돌리면 쓸모있는 메뉴가 다 등장한다.
 만약, 0개인 메뉴를 제외하고 싶으면 내가 client.out 처럼 구현한대로 menuTotal 까지 for문돌린 후, if문으로 0개인 정보 제외하고 출력하면 된다.
+
+
+********************
+
+메뉴를 바꾸고 싶다고 하면
+
+g++ -o inputMenu.out inputMenu.cpp menuClass.cpp
+
+./inputMenu.out 으로 실행 후 바꿈
+
