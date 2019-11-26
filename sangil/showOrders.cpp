@@ -1,14 +1,14 @@
 #include "MyMsg.hpp"
 #include <csignal>
 #include <cstdlib>
-#include <stdlib.h>
 #include <cstring>
 #include <iostream>
+#include <signal.h>
+#include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <signal.h>
 #include <vector>
 
 using namespace std;
@@ -31,6 +31,7 @@ int main(int argc, char const *argv[]) {
 
     vector<int> orders;
     vector<int>::iterator iter;
+    // 메인 서버로부터 받는 SIGUSR1 signal.. 삭제 모드 실행
     signal(SIGUSR1, signalHandler);
     signal(SIGUSR2, signalHandler);
 
@@ -38,8 +39,8 @@ int main(int argc, char const *argv[]) {
     // system("clear");
     while (1) {
         system("clear");
-        cout<< " ----O r d e r e d   L I S T---- "<<endl;
-        for (iter = orders.begin(); iter != orders.end(); ++iter){
+        cout << " ----O r d e r e d   L I S T---- " << endl;
+        for (iter = orders.begin(); iter != orders.end(); ++iter) {
             cout << "Consumer Number: " << *iter << endl;
             cout << "---------------------------------" << endl;
         }
@@ -54,7 +55,9 @@ int main(int argc, char const *argv[]) {
     }
     return 0;
 }
-void getMsg(int qid, int type) { msgrcv(qid, &msgRslt, MSG_SIZE_RSLT, type, 0); }
+void getMsg(int qid, int type) {
+    msgrcv(qid, &msgRslt, MSG_SIZE_RSLT, type, 0);
+}
 
 void sendMsg(int qid, long type, int data) {
     memset(&msgRslt, 0x00, sizeof(MsgRslt));
@@ -62,12 +65,12 @@ void sendMsg(int qid, long type, int data) {
     msgRslt.rslt = data;
     msgsnd(qid, &msgRslt, MSG_SIZE_RSLT, 0);
 }
-void signalHandler(int signum){
-    if (signum == SIGUSR1){
+void signalHandler(int signum) {
+    if (signum == SIGUSR1) {
         signal(SIGUSR2, signalHandler);
         cout << "Remove Mode ON" << endl;
         pause();
-    } else if (signum == SIGUSR2){
+    } else if (signum == SIGUSR2) {
         memset(&msgRslt, 0x00, sizeof(MsgRslt));
         getMsg(msqid1, IDX_REMOVE_RCV);
         cout << ">>> ??? ??: " << idx << endl;
