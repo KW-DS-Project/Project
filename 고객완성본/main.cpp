@@ -355,6 +355,7 @@ int main(void) {
                         msgCus.mtype = MSG_TYPE_CUS;
 
                         if (pay == 1) {
+                            // 사용자 인터페이스 출력
                             cout << endl;
                             cout << " >>> 카드 결제가 완료되었습니다. <<<"
                                  << endl;
@@ -366,68 +367,16 @@ int main(void) {
                                     "기다려주십시오. <<<"
                                  << endl;
 
+                            // poeple 초기화 세팅 (메뉴 수량)
                             people.setNum(order_num);
-
                             int j = 0;
                             for (int i = 0; i < menuTotal; i++) {
-                                // if (orderList[i].getCount() != 0) {
                                 people.setOrder(j, orderList[i].getName(),
                                                 orderList[i].getCount());
                                 j++;
-                                //}
                             }
 
-                            /*
-                            // 확인용 코드
-                                                        cout << endl << endl <<
-                            "****" << endl; cout << "주문번호 : " <<
-                            people.getNum() << endl; for (int i = 0; i < j; i++)
-                            {
-
-                                                            cout << "메뉴이름 :
-                            " << people.getOrder(i).name
-                                                                 << endl;
-                                                            cout << "수량 : " <<
-                            people.getOrder(i).count
-                                                                 << endl;
-                                                        }
-                                                        cout << endl;
-                            */
-
-                            // 메세지 전달
-
-                            int k = 0;
-
-                            // msgCus.people.setNum(people.getNum());
-                            // msgCus.menuTotal = menuTotal;
-
-                            // msgCus.num = order_num;
-                            // for (int i = 0; i < menuTotal; i++) {
-                            //     msgCus.msgList[i].name =
-                            //         people.getOrder(i).name;
-                            //     msgCus.msgList[i].count =
-                            //         people.getOrder(i).count;
-                            // }
-
-                            //
-
-                            // for (int i = 0; i < menuTotal; i++) {
-                            //     //   cout << people.getOrder(i).name << " "
-                            //     //       << people.getOrder(i).count << endl;
-
-                            //     msgCus.msgList[i].name =
-                            //         people.getOrder(i).name;
-                            //     msgCus.msgList[i].count =
-                            //         people.getOrder(i).count;
-                            // }
-
-                            //
-
-                            // for (int i = 0; i < 256; i++) {
-                            //     msgCus.msgList[i].name = "nomenu";
-                            //     msgCus.msgList[i].count = -1;
-                            // }
-
+                            // 전달 값 세팅
                             msgCus.num = order_num;
                             msgCus.menuTotal = menuTotal;
 
@@ -437,35 +386,22 @@ int main(void) {
                                 msgCus.msgList[i].count =
                                     people.getOrder(i).count;
                             }
-                            for (int i = menuTotal; i < 30; i++) {
+                            for (int i = menuTotal; i < 7; i++) {
                                 strcpy(msgCus.msgList[i].name, "noMenu");
                                 msgCus.msgList[i].count = -1;
                             }
-                            /*
-                            for (int i = menuTotal; i < 256; i++) {
-                                strcpy(msgCus.msgList[i].name, "noMenu");
-                                msgCus.msgList[i].count = -1;
-                            }
-                            */
 
-                            // msgCus.a = "dd";
-
-                            // for (int i = 0; i < menuTotal; i++) {
-                            //     msgCus.people.setOrder(k,
-                            //                            orderList[i].getName(),
-                            //                            orderList[i].getCount());
-                            //     k++;
-                            // }
+                            // 데이터 통신
                             if (msgsnd(msqid, &msgCus, MSG_SIZE_CUS, 0) == -1) {
                                 perror("send error!");
                                 exit(100);
                             }
 
-                            //
                             order_num += 1;
                             sleep(3);
                             break;
                         } else if (pay == 2) {
+                            // 사용자 인터페이스 출력
                             cout << endl;
                             cout << " >>> 현금 결제가 완료되었습니다. <<<"
                                  << endl;
@@ -477,88 +413,34 @@ int main(void) {
                                     "기다려주십시오. <<<"
                                  << endl;
 
+                            // people 값 초기화(메뉴 수량)
                             people.setNum(order_num);
-                            // order_num += 1;
-
                             int j = 0;
                             for (int i = 0; i < menuTotal; i++) {
-                                // if (orderList[i].getCount() != 0) {
                                 people.setOrder(j, orderList[i].getName(),
                                                 orderList[i].getCount());
                                 j++;
-                                // }
                             }
 
-                            /*
-                            // 확인용 코드
-                                                        cout << endl << endl <<
-                            "****" << endl; cout << "주문번호 : " <<
-                            people.getNum() << endl; for (int i = 0; i < j; i++)
-                            {
-
-                                                            cout << "메뉴이름 :
-                            " << people.getOrder(i).name
-                                                                 << endl;
-                                                            cout << "수량 : " <<
-                            people.getOrder(i).count
-                                                                 << endl;
-                                                        }
-                                                        cout << endl;
-                            */
-
-                            // 메세지 전달
-
-                            // int k = 0;
-                            // memset(&msgCus, 0x00, sizeof(MsgCus));
-                            // msgCus.mtype = MSG_TYPE_CUS;
-                            // // msgCus.people.setNum(people.getNum());
-                            // msgCus.menuTotal = menuTotal;
-
-                            // msgCus.num = order_num;
-                            // // for (int i = 0; i < menuTotal; i++) {
-                            // //     msgCus.msgList[i].name =
-                            // //         people.getOrder(i).name;
-                            // //     msgCus.msgList[i].count =
-                            // //         people.getOrder(i).count;
-                            // // }
-                            // for (int i = 0; i < menuTotal; i++) {
-                            //     msgCus.msgList[i].name =
-                            //         people.getOrder(i).name;
-                            //     msgCus.msgList[i].count =
-                            //         people.getOrder(i).count;
-                            // }
-                            // for (int i = menuTotal; i < 256; i++) {
-                            //     msgCus.msgList[i].name = "nomenu";
-                            //     msgCus.msgList[i].count = -1;
-                            // }
-
-                            // for (int i = 0; i < menuTotal; i++) {
-                            //     msgCus.people.setOrder(k,
-                            //                            orderList[i].getName(),
-                            //                            orderList[i].getCount());
-                            //     k++;
-                            // }
-
+                            // 전달 값 세팅
                             msgCus.num = order_num;
                             msgCus.menuTotal = menuTotal;
-
                             for (int i = 0; i < menuTotal; i++) {
                                 strcpy(msgCus.msgList[i].name,
                                        people.getOrder(i).name.c_str());
                                 msgCus.msgList[i].count =
                                     people.getOrder(i).count;
                             }
-                            for (int i = menuTotal; i < 30; i++) {
+                            for (int i = menuTotal; i < 7; i++) {
                                 strcpy(msgCus.msgList[i].name, "noMenu");
                                 msgCus.msgList[i].count = -1;
                             }
 
+                            // 통신 시도
                             if (msgsnd(msqid, &msgCus, MSG_SIZE_CUS, 0) == -1) {
                                 perror("send error!");
                                 exit(100);
                             }
-
-                            //
                             order_num += 1;
                             sleep(3);
                             break;
@@ -577,7 +459,6 @@ int main(void) {
                 }
             }
         }
-
         continue;
     }
 

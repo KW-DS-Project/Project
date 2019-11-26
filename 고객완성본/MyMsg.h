@@ -17,7 +17,7 @@ typedef struct __MsgList MsgList;
 struct __MsgCus {
     long mtype;
 
-    MsgList msgList[30];
+    MsgList msgList[7];
     int num;
     int menuTotal;
 };

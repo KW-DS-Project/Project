@@ -39,13 +39,13 @@ int main() {
 
         cout << "주문번호 : " << msgCus.num << endl << endl;
 
+        // menuTotal = 5;
         for (int i = 0; i < menuTotal; i++) {
             if (msgCus.msgList[i].count != 0) {
                 cout << msgCus.msgList[i].name << " " << msgCus.msgList[i].count
                      << endl;
             }
         }
-        cout << endl;
     }
 
     return 0;
