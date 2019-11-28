@@ -29,3 +29,13 @@ g++ -o inputMenu.out inputMenu.cpp menuClass.cpp
 
 ./inputMenu.out 으로 실행 후 바꿈
 
+11/28 추가(형석)
+client.cpp, mainServ.cpp 스레드로 msgrcv 따로 받게 해놓음
+삭제할 인덱스 통신 완료
+시그널을 통한 REMOVE MODE 실패
+
+실행 순서 
+g++ -o main.out menuClass.cpp people.cpp main.cpp order.cpp
+g++ -o client.out client.cpp
+g++ mainServ.cpp -o mainServer.out
+g++ server2.cpp -o server.out
