@@ -50,22 +50,15 @@ int main(int argc, char const *argv[]) {
         cout << "pid of Orders: " << pidOfOrders << endl;
         puts("Hello I'm main server ...");
 
-        if (msgrcv(msqid1, &msgRslt, MSG_SIZE_RSLT, IDX_STORE_SND, 0) > 0) {
-            cout << "Receive from cutomer: " << msgRslt.rslt << endl;
-            idx = msgRslt.rslt;
+        msgrcv(msqid1, &msgRslt, MSG_SIZE_RSLT, IDX_STORE_SND, 0);
+        cout << "Receive from cutomer: " << msgRslt.rslt << endl;
+        idx = msgRslt.rslt;
 
-            sendMsg(msqid2, IDX_STORE_RCV, idx);
+        sendMsg(msqid2, IDX_STORE_RCV, idx);
 
-            cout << "Send to kitchen: " << msgRslt.rslt << endl;
+        cout << "Send to kitchen: " << msgRslt.rslt << endl;
 
-        } else {
-            perror("msgrcv1 error");
-            exit(-1);
-        }
-
-        if (idx < 0)
-            return 0;
-        // fflush(stdout);
+        fflush(stdout);
     }
     return 0;
 }
